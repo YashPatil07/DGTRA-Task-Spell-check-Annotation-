@@ -23,12 +23,13 @@ def index(request):
             annotations = [] 
             
             for page_number,page in enumerate(doc):
-                page_text = page.get_text("blocks")  # Extract plain text from the page
-                all_text += page_text + "\n"
-
-                for block in page_text:
-                    block_text = block[4]  # Extract the actual text content
-                    all_text += block_text + "\n"  # Combine all blocks for full text
+                # page_text = page.get_text("blocks")  # Extract plain text from the page
+                # all_text += page_text + "\n"
+                page_text_blocks = page.get_text("blocks")  # Returns a list of text blocks
+                page_text = "\n".join(block[4] for block in page_text_blocks if len(block) > 4)
+                # for block in page_text:
+                #     block_text = block[4]  # Extract the actual text content
+                #     all_text += block_text + "\n"  # Combine all blocks for full text
 
                 # Check for spelling mistakes
                 matches = tool.check(all_text)
